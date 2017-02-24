@@ -52,7 +52,7 @@ License
 [Apache-2.0 License](http://www.apache.org/licenses/LICENSE-2.0)
 
 [npm-url]: https://npmjs.org/package/latency-monitor
-[npm-image]: https://badge.fury.io/js/latency-monitor
+[npm-image]: https://badge.fury.io/js/latency-monitor.svg
 
 [travis-url]: http://travis-ci.org/mlucool/latency-monitor
 [travis-image]: https://secure.travis-ci.org/mlucool/latency-monitor.png?branch=master
