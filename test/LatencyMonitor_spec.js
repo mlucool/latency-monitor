@@ -46,12 +46,16 @@ describe('LatencyMonitor', () => {
     describe('Browser', () => {
         const hold = process.hrtime;
         beforeEach(() => {
+            global.document = {
+                hidden: false
+            };
             global.window = {};
             delete process.hrtime;
         });
         afterEach(() => {
             process.hrtime = hold;
             delete global.window;
+            delete global.document;
         });
 
         it('should be able to emit latency events in a browser with performance.now', (cb) => {
