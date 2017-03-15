@@ -18,7 +18,8 @@ module.exports = {
         'no-plusplus': 0, // a++ useful at times
         'arrow-parens': ['error', 'always'], // (a) => a should mirror syntax for (a,b) => a + b
         'no-use-before-define': 0, // Hoisting makes for cleaner code
-        'no-underscore-dangle': 0 // We support private by convention
+        'no-underscore-dangle': 0, // We support private by convention
+        'class-methods-use-this': 0 // I like calling foo.bar() instead of Foo.bar() for something that might not always be static
     }
 };
 

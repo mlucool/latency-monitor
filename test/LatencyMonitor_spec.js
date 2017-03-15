@@ -1,13 +1,16 @@
 import {expect} from 'chai';
 import LatencyMonitor from '../src/LatencyMonitor';
 
+const EXPECTED_KEYS = ['events', 'minMs', 'maxMs', 'avgMs', 'lengthMs'];
 describe('LatencyMonitor', () => {
     describe('node', () => {
         it('should be able to emit latency events in node', (cb) => {
             const monitor = new LatencyMonitor({latencyCheckIntervalMs: 10, dataEmitIntervalMs: 50});
             const startTime = process.hrtime();
             monitor.once('data', (data) => {
-                expect(data).to.contain.all.keys(['events', 'minMs', 'maxMs', 'avgMs']);
+                expect(data).to.contain.all.keys(EXPECTED_KEYS);
+                expect(data.lengthMs).to.be.greaterThan(0);
+                expect(data.avgMs).to.be.greaterThan(0);
                 expect(toMS(process.hrtime(startTime))).to.be.at.least(49);
                 cb();
             });
@@ -25,7 +28,7 @@ describe('LatencyMonitor', () => {
             });
             const startTime = process.hrtime();
             monitor.once('data', (data) => {
-                expect(data).to.contain.all.keys(['events', 'minMs', 'maxMs', 'avgMs']);
+                expect(data).to.contain.all.keys(EXPECTED_KEYS);
                 expect(toMS(process.hrtime(startTime))).to.be.at.least(49);
                 expect(wasCalled).to.be.true; // Our custom was called
                 cb();
@@ -36,7 +39,7 @@ describe('LatencyMonitor', () => {
             const monitor = new LatencyMonitor({latencyCheckIntervalMs: 10, dataEmitIntervalMs: null});
             setTimeout(() => {
                 const data = monitor.getSummary();
-                expect(data).to.contain.all.keys(['events', 'minMs', 'maxMs', 'avgMs']);
+                expect(data).to.contain.all.keys(EXPECTED_KEYS);
                 expect(data.events).to.be.at.least(2);
                 cb();
             }, 50);
@@ -63,7 +66,7 @@ describe('LatencyMonitor', () => {
             const monitor = new LatencyMonitor({latencyCheckIntervalMs: 10, dataEmitIntervalMs: 50});
             const startTime = Date.now();
             monitor.once('data', (data) => {
-                expect(data).to.contain.all.keys(['events', 'minMs', 'maxMs', 'avgMs']);
+                expect(data).to.contain.all.keys(EXPECTED_KEYS);
                 expect(Date.now() - startTime).to.be.at.least(42);
                 cb();
             });
@@ -73,7 +76,7 @@ describe('LatencyMonitor', () => {
             const monitor = new LatencyMonitor({latencyCheckIntervalMs: 10, dataEmitIntervalMs: 50});
             const startTime = Date.now();
             monitor.once('data', (data) => {
-                expect(data).to.contain.all.keys(['events', 'minMs', 'maxMs', 'avgMs']);
+                expect(data).to.contain.all.keys(EXPECTED_KEYS);
                 expect(Date.now() - startTime).to.be.at.least(42);
                 cb();
             });

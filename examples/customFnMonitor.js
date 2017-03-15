@@ -14,7 +14,7 @@ monitor.on('data', (summary) => console.log('Ping Pong Latency: %O', summary));
 
 function pong() {
     return new Promise((resolve, reject) => {
-        setTimeout(resolve, Math.random() * 10); // Randomly wait 0-10ms to resolve
+        setTimeout(resolve, Math.random() * 10 + 3); // Randomly wait 3-13ms to resolve
     });
 }
 

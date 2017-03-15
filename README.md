@@ -7,8 +7,9 @@
 
 ## Usage
 This tool allows you to time and get summaries of how long async functions took. By default, it assumes you want to measure
-event loop latency, but as [this example]() shows, you can use it for a simple ping pong setup with Promises too.
-This code works in both browsers and node.js and will do its best effort to use as accurate a timer as possible.
+event loop latency, but as [this example](https://github.com/mlucool/latency-monitor/blob/master/examples/customFnMonitor.js) shows,
+you can use it for a simple ping pong setup with Promises too. This code works in both browsers and node.js and will do its best effort to use as accurate a timer as possible.
+
 
 Example event loop monitor (default).
 ```javascript
@@ -25,9 +26,22 @@ monitor.on('data', (summary) => console.log('Event Loop Latency: %O', summary));
  * Event Loop Latency Monitor Loaded:
  *   {dataEmitIntervalMs: 5000, latencyCheckIntervalMs: 500}
  * Event Loop Latency:
- *   {avgMs: 0, events: 10, maxMs: 0, minMs: 0}
+ *   {avgMs: 3, events: 10, maxMs: 5, minMs: 1, lengthMs: 5000}
  */
 ```
+ 
+## More Theory
+We use `setTimeout` to pick when to run the next test. We do this so we can add in some randomness to avoid aligning
+our events with some external event (e.g. another timer that triggers a slow event). When we are monitoring event loop latency
+(i.e. no async function provided), then we simply record how long getting the callback really took.
+When we measure an async function, we only time how long that async function took to call the passed in `cb`.
+
+When used in a browser, this tool disables itself if the page is hidden because of restrictions with how often we can
+call setTimeout see [this](http://stackoverflow.com/questions/6032429/chrome-timeouts-interval-suspended-in-background-tabs).
+
+When monitoring event loop latency, we add in 1ms to all measurements. `setTimeout` is not more accurate than 1ms, so this ensures
+every number is greater than 0. To remove this offset, simply subtract 1 from all stats.
+**TLDR; event loop latency monitoring does NOT have sub-millisecond accuracy, even if the emitted numbers show this.**
 
 ## Installation
 
@@ -45,7 +59,6 @@ or in a browser `localStorage.debug='latency-monitor'` to see debugging output.
 This is a reasonable attempt to make a latency monitor. There are issues such as:
 - We don't wait for the last event to finish when emitting stats. This means if the last event in a cycle takes the longest,
 or is never returned, then for that cycle large latency isn't recorded.
-- It isn't clear if `setImmediate` or `setTimeout` is the right way to measure event loop latency (default function to monitor).
 
 License
 -------------
