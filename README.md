@@ -51,6 +51,42 @@ Install `latency-monitor` as a dependency:
 npm install --save latency-monitor
 ```
 
+## On Demand Browser Latency
+We also host a copy of the browser event loop latency detector on [jsdelivr](https://www.jsdelivr.com/projects/latency-monitor).
+To use this, you can include the script in a src tag, or simply load it in Chrome DevTools. You should expect to see
+the same output as documented above in [usage](#usage).
+
+Load via `script` element (paste into page's html):
+```html
+<script src='//cdn.jsdelivr.net/latency-monitor/0.2.1/EventLoopPrinterWebpacked.js'></script>
+```
+
+Load via `script` in JavaScript (paste in your devtools - e.g. Chrome DevTools):
+```javascript
+var el = document.createElement('script');
+el.setAttribute('src', 'https://cdn.jsdelivr.net/latency-monitor/0.2.1/EventLoopPrinterWebpacked.js')
+document.body.appendChild(el)
+```
+
+Load via `jquery` (if you have `$` loaded on the page already, paste this in Chrome DevTools or in your code):
+```javascript
+$.getScript('//cdn.jsdelivr.net/latency-monitor/0.2.1/EventLoopPrinterWebpacked.js');
+```
+
+Last resort: Load via XMLHTTPRequest:
+```javascript
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "//cdn.jsdelivr.net/latency-monitor/0.2.1/EventLoopPrinterWebpacked.js", true);
+xhr.onreadystatechange = function() {
+  if (xhr.readyState == 4) {
+    // WARNING! Might be evaluating an evil script!
+    var resp = eval(xhr.responseText);
+  }
+};
+xhr.send();
+```
+**Note**: Remember to change 0.2.1 above to whatever is the [latest version](https://www.npmjs.com/package/latency-monitor) of latency-monitor.
+
 ## Debugging
 We use [debug](https://github.com/visionmedia/debug). In node set env variable `DEBUG=latency-monitor:*` 
 or in a browser `localStorage.debug='latency-monitor'` to see debugging output.

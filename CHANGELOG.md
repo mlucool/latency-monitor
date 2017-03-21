@@ -2,6 +2,10 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v0.2.1](https://github.com/mlucool/latency-monitor/compare/v0.2.0...v0.2.1)
+### Fixed
+- ES6 default import
+
 ## [v0.2.0](https://github.com/mlucool/latency-monitor/compare/v0.1.0...v0.2.0)
 ### Fixed
 - Method for monitoring event loop latency is vastly improved. This is considered a breaking change, although is

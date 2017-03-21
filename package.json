@@ -1,6 +1,6 @@
 {
   "name": "latency-monitor",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A generic latency monitor for node/browers",
   "main": "index.js",
   "files": [
