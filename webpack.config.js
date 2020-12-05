@@ -1,11 +1,12 @@
 // Based very loosely on https://www.reactstarterkit.com/
 
-import path from 'path';
-import webpack from 'webpack';
+const path = require('path');
+const webpack = require('webpack');
 
 const isDebug = process.env.NODE_ENV === 'production';
 
-const config = {
+module.exports = {
+    mode: isDebug ? 'development' : 'production',
     context: path.resolve(__dirname, 'src'),
 
     entry: path.resolve(__dirname, 'src/EventLoopPrinter.js'),
@@ -19,19 +20,18 @@ const config = {
         rules: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                },
                 include: [
                     path.resolve(__dirname, './src')
                 ],
-                exclude: [/node_modules/],
-                query: {
-                    presets: ['es2015']
-                }
+                exclude: [/node_modules/]
             }
         ]
-    },
-    resolve: {
-        modules: [path.resolve(__dirname, 'src'), 'node_modules']
     },
     // Don't attempt to continue if there are any errors.
     bail: !isDebug,
@@ -42,19 +42,7 @@ const config = {
             'process.env.NODE_ENV': isDebug ? '"development"' : '"production"',
             'process.env.BROWSER': true,
             __DEV__: isDebug
-        }),
-
-        ...isDebug ? [] : [
-            // Minimize all JavaScript output of chunks
-            // https://github.com/mishoo/UglifyJS2#compressor-options
-            new webpack.optimize.UglifyJsPlugin({
-                sourceMap: true,
-                compress: {
-                    screw_ie8: true, // eslint-disable-line
-                    warnings: false
-                }
-            })
-        ]
+        })
     ],
 
     devtool: isDebug ? 'inline-source-map' : 'source-map',
@@ -65,5 +53,3 @@ const config = {
         timings: true
     }
 };
-
-export default config;

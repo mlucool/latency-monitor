@@ -1,5 +1,7 @@
 module.exports = {
-    extends: 'airbnb',
+    extends: 'airbnb-base',
+    plugins: ['babel'],
+    parser: "@babel/eslint-parser",
     rules: {
         indent: ['error', 4, {SwitchCase: 1}], // 4 is more readable than 2
         quotes: [2, 'single', 'avoid-escape'],

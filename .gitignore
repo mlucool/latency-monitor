@@ -6,3 +6,5 @@ docs/gen
 coverage
 npm-debug.log
 coverage
+.nyc_output
+.vscode

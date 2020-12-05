@@ -29,7 +29,6 @@ const debug = require('debug')('latency-monitor:VisibilityChangeEmitter');
  * @class VisibilityChangeEmitter
  */
 export default class VisibilityChangeEmitter extends EventEmitter {
-
     /**
      * Creates a VisibilityChangeEmitter
      */
@@ -77,8 +76,8 @@ export default class VisibilityChangeEmitter extends EventEmitter {
      * @private
      */
     _addVisibilityChangeListener() {
-        if (typeof document.addEventListener === 'undefined' ||
-            typeof document[this._hidden] === 'undefined') {
+        if (typeof document.addEventListener === 'undefined'
+            || typeof document[this._hidden] === 'undefined') {
             debug('Checking page visibility requires a browser that supports the Page Visibility API.');
         } else {
             // Handle page visibility change
