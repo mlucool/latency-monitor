@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing Latency Monitor</title>
+    </head>
+    <body>
+    <script src='dist/EventLoopPrinterWebpacked.js'></script>
+    <script>
+        function blockFor(lengthMs) {
+            const time = Date.now();
+            while (true) {
+                if (time + lengthMs < Date.now()) {
+                    console.log(`Blocked for ${lengthMs}ms`);
+                    break;
+                }
+            }
+            setTimeout(() => blockFor(Math.floor(Math.random()*300)), 100);
+        }
+        blockFor(100);
+    </script>
+    </body>
+</html>

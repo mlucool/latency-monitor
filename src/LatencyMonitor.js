@@ -63,7 +63,7 @@ class LatencyMonitor extends EventEmitter {
         that.asyncTestFn = asyncTestFn; // If there is no asyncFn, we measure latency
 
         // If process: use high resolution timer
-        if (process && process.hrtime) {
+        if (typeof process !== 'undefined' && process.hrtime) {
             debug('Using process.hrtime for timing');
             that.now = process.hrtime;
             that.getDeltaMS = (startTime) => {
