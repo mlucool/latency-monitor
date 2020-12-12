@@ -32,7 +32,6 @@ describe('VisibilityChangeEmitter', () => {
                 };
                 global.document[hiddenName] = false;
 
-
                 const vce = new VisibilityChangeEmitter();
                 expect(name).to.eql(visibilityName); // Registers right callback name
                 let first = true;

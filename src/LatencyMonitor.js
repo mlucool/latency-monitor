@@ -38,7 +38,9 @@ class LatencyMonitor extends EventEmitter {
      * @param {function} [asyncTestFn] What cb-style async function to use
      * @param {Number} [latencyRandomPercentage=5] What percent (+/-) of latencyCheckIntervalMs should we randomly use? This helps avoid alignment to other events.
      */
-    constructor({latencyCheckIntervalMs, dataEmitIntervalMs, asyncTestFn, latencyRandomPercentage} = {}) {
+    constructor({
+        latencyCheckIntervalMs, dataEmitIntervalMs, asyncTestFn, latencyRandomPercentage
+    } = {}) {
         super();
         const that = this;
 
@@ -179,7 +181,6 @@ class LatencyMonitor extends EventEmitter {
         // Randomness is needed to avoid alignment by accident to regular things in the event loop
         const randomness = (Math.random() * that._latecyCheckMultiply) - that._latecyCheckSubtract;
 
-
         // We use this to ensure that in case some overlap somehow, we don't take the wrong startTime/offset
         const localData = {
             deltaOffset: Math.ceil(that.latencyCheckIntervalMs + randomness),
@@ -192,7 +193,7 @@ class LatencyMonitor extends EventEmitter {
                 return;
             }
             const deltaMS = that.getDeltaMS(localData.startTime) - localData.deltaOffset;
-            that._checkLatency();  // Start again ASAP
+            that._checkLatency(); // Start again ASAP
 
             // Add the data point. If this gets complex, refactor it
             that._latencyData.events++;
